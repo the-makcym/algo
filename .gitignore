@@ -1,3 +1,7 @@
 cmake-build-debug
+tourist_algo
+out
+.vscode
 .idea
-main.cpp
+*.exe
+*.txt

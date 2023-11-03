@@ -1,4 +1,4 @@
-#include <vector>
+#include <bits/stdc++.h>
 #include <string>
 
 using namespace std;
@@ -54,8 +54,8 @@ vector<int> z_func(const string &s, const string &t) {
         if (i + tz[i] - 1 > rb)
             lb = i, rb = i + tz[i] - 1;
     }
-    if (!s.empty() and !t.empty()) z[0] = (s[0] == t[0]) ? 1 : 0;
-    lb = rb = 0;
+    while (z[0] < s.size() and z[0] < t.size() and t[z[0]] == s[z[0]]) z[0]++;
+    lb = 0, rb = z[0] - 1;
     for (int i = 1; i < s.size(); ++i) {
         if (i <= rb)
             z[i] = min(tz[i - lb], rb - i + 1);
@@ -67,10 +67,30 @@ vector<int> z_func(const string &s, const string &t) {
     return z;
 }
 
-vector<int> manacker_even(const string &s) {
-
+vector<int> manacker_odd(const string &s) {
+    vector<int> rad(s.size(), 1);
+    int lb = 0, rb = 0;
+    for (int i = 1; i < s.size(); ++i) {
+        if (i <= rb)
+            rad[i] = min(rad[lb + rb - i], rb - i + 1);
+        while (0 <= i - rad[i] and i + rad[i] < s.size() and s[i - rad[i]] == s[i + rad[i]])
+            rad[i]++;
+        if (rb < i + rad[i] - 1)
+            lb = i - rad[i] + 1, rb = i + rad[i] - 1;
+    }
+    return rad;
 }
 
-vector<int> manacker_odd(const string &s) {
-
+vector<int> manacker_even(const string &s) {
+    vector<int> rad(s.size() - 1, 0);
+    int lb = -1, rb = -1;
+    for (int i = 0; i < s.size(); ++i) {
+        if (i <= rb)
+            rad[i] = min(rad[lb + rb - i - 1], rb - i);
+        while (0 <= i - rad[i] and i + rad[i] - 1 < s.size() and s[i - rad[i]] == s[i + rad[i] - 1])
+            rad[i]++;
+        if (rb < i + rad[i])
+            lb = i - rad[i] + 1, rb = i + rad[i];
+    }
+    return rad;
 }
