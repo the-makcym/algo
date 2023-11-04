@@ -2,6 +2,13 @@
 
 using namespace std;
 
+// гамильтонов путь
+// вообще это NP-полная задача, так что, если задача на граф имеет ограничения
+// типа до 20 вершин, то это скорее всего сюда
+// https://codeforces.com/blog/entry/337
+
+// dp = dynamic programming memoization
+
 int shortest_hamilton_path(int mask, int end, vector<vector<int>> &dp,
                            const vector<unordered_map<int, int>> &graph) {
     if ((mask & (mask - 1)) == 0) return 0;
